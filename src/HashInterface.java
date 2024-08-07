@@ -1,4 +1,4 @@
-public interface Hash<K,V>{
+public interface HashInterface<K,V>{
         boolean insert(K key, V value); // Insert a key-value pair
         boolean remove(K key);
         void clear(); // Clear all entries

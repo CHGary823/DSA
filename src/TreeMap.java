@@ -1,5 +1,3 @@
-public class Tree implements Maps{
-
-
+public class TreeMap<K> implements TreeInterface<K> {
 
 }

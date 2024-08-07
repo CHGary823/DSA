@@ -1,4 +1,4 @@
-public interface Tree<K> {
+public interface TreeInterface<K> {
         boolean insert(K key);
         boolean remove(K key); // Remove the entry with the specified key
         void clear(); // Clear all entries
