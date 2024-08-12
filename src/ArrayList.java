@@ -1,17 +1,17 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class List<T extends Comparable<T>> implements Listing<T> ,Iterable<T> {
+public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Iterable<T> {
     //Create a simple list data structure
     int size;
     int capacity = 10;
     T[] list;
 
     //Constructor
-    public List() {this.list = (T[]) new Object[this.capacity];}
+    public ArrayList() {this.list = (T[]) new Object[this.capacity];}
 
     //Constructor with custom capacity
-    public List(int capacity) {
+    public ArrayList(int capacity) {
         this.capacity = capacity;
         this.list = (T[]) new Object[capacity];
     }
