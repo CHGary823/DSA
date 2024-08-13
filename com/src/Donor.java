@@ -1,4 +1,4 @@
-package com.DSA.testAVL;
+package com.src;
 public class Donor {
     private String id;
     private String name;

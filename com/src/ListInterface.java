@@ -1,4 +1,4 @@
-package com.DSA.testAVL;
+package com.src;
 public interface ListInterface<T> {
 
     void add(T data);
