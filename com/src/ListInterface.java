@@ -4,8 +4,8 @@ public interface ListInterface<T> {
     void add(T data);
     void insert(int index,T data);
 
-    T read(int index,T data);
-
+    void read();
+    T search(T data);
     boolean remove(int index);
 
     boolean update(int index,T oldData,T newData);

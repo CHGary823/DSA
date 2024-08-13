@@ -1,6 +1,9 @@
 package com.src;
-public class Donor {
-    private String id;
+
+import java.util.Objects;
+
+public class Donor implements Comparable<Donor> {
+    private String donorID;
     private String name;
     private String phoneNumber;
     private String email;
@@ -8,8 +11,8 @@ public class Donor {
     private String ArrayListKey; // Foreign Key
 
     // Constructor
-    public Donor(String id, String name, String phoneNumber, String email, String donorType, String ArrayListKey) {
-        this.id = id;
+    public Donor(String donorID, String name, String phoneNumber, String email, String donorType, String ArrayListKey) {
+        this.donorID = donorID;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -18,8 +21,8 @@ public class Donor {
     }
 
     // Getters for all fields
-    public String getId() {
-        return id;
+    public String getDonorID() {
+        return donorID;
     }
 
     public String getName() {
@@ -45,8 +48,8 @@ public class Donor {
     //Setter for all fields
 
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String donorID) {
+        this.donorID = donorID;
     }
 
     public void setName(String name) {
@@ -72,12 +75,25 @@ public class Donor {
     @Override
     public String toString() {
         return "Donor{" +
-                "id='" + id + '\'' +
+                "id='" + donorID + '\'' +
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", donorType='" + donorType + '\'' +
                 ", avlTreeKey='" + ArrayListKey + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Donor donor = (Donor) o;
+        return Objects.equals(donorID, donor.donorID) && Objects.equals(name, donor.name) && Objects.equals(phoneNumber, donor.phoneNumber) && Objects.equals(email, donor.email) && Objects.equals(donorType, donor.donorType) && Objects.equals(ArrayListKey, donor.ArrayListKey);
+    }
+
+    @Override
+    public int compareTo(Donor anotherDonor) {
+        return this.ArrayListKey.compareTo(anotherDonor.getArrayListKey());
     }
 }

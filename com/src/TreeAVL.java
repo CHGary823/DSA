@@ -2,6 +2,11 @@ package com.src;
 public class TreeAVL<T extends Comparable<T>> implements TreeInterface<T> {
     private NodeAVL<T> root;
 
+    //Constructor
+    public TreeAVL() {
+        this.root = null;
+    }
+
     // Create Operation
     @Override
     public void insert(T data) {
@@ -97,27 +102,31 @@ public class TreeAVL<T extends Comparable<T>> implements TreeInterface<T> {
         return node.data;
     }
 
-    public boolean search(T key) {
-        NodeAVL<T> result = searchHelper(root, key);
+    public boolean search(T data) {
+        NodeAVL<T> result = searchHelper(root, data);
         return result != null;
     }
 
-    private NodeAVL<T> searchHelper(NodeAVL<T> root, T key) {
-        if (root == null || root.data.equals(key)) {
+    private NodeAVL<T> searchHelper(NodeAVL<T> root, T data) {
+        if (root == null || root.data.equals(data)) {
             return root;
         }
-
-        if (key.compareTo(root.data) < 0) {
-            return searchHelper(root.left, key);
+    
+        if (data.compareTo(root.data) < 0) {
+            return searchHelper(root.left, data);
         }
-        return searchHelper(root.right, key);
+        return searchHelper(root.right, data);
     }
 
-    @Override
-    public boolean update(T data) {
+        @Override
+        public boolean update(T data) {
+        NodeAVL<T> node = searchHelper(root, data);
+        if (node != null) {
+            node.data = data;
+            return true;
+        }
         return false;
-    }
-
+        }
     // Read process
     @Override
     public void read() {
@@ -134,17 +143,25 @@ public class TreeAVL<T extends Comparable<T>> implements TreeInterface<T> {
 
     @Override
     public boolean contains(T data) {
-        return false;
+        return search(data);
     }
 
-    @Override
+@   Override
     public boolean isEmpty() {
-        return false;
+    return root == null;
     }
 
     @Override
     public int size() {
+    return sizeHelper(root);
+    }
+
+    private int sizeHelper(NodeAVL<T> node) {
+    if (node == null) {
         return 0;
+    } else {
+        return 1 + sizeHelper(node.left) + sizeHelper(node.right);
+    }
     }
 
     // Height Process

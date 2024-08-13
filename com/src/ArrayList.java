@@ -9,13 +9,17 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
     T[] list;
 
     //Constructor
-    public ArrayList() {this.list = (T[]) new Object[this.capacity];}
+    public ArrayList() {
+        this(10);  // Default capacity
+    }
 
-    //Constructor with custom capacity
+    // Constructor with custom capacity
+
     public ArrayList(int capacity) {
         this.capacity = capacity;
-        this.list = (T[]) new Object[capacity];
+        this.list = (T[]) new Comparable[capacity];  // Initialize array with Comparable to match T
     }
+
 
     //Add functions
     @Override
@@ -28,6 +32,7 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
         ++this.size;
     }
 
+    @Override
     public void insert(int index,T data) {
         //Exception throw
         if (index < 0 || index > this.size) {
@@ -46,10 +51,22 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
 
     //read
     @Override
-    public T read(int index,T data)
-    {
-            if (index < 0 || index >= this.size) {throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);}
-            return this.list[index];
+    public void read() {
+        Iterator<T> iterator = iterator();
+        while (iterator.hasNext()) {
+            T data = iterator.next();
+            System.out.println(data);
+        }
+    }
+    //Search
+    @Override
+    public T search(T data) {
+        for (T element : this) {
+            if (element.equals(data)) {
+                return element;
+            }
+        }
+        return null;
     }
 
     //remove functions
