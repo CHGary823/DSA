@@ -14,7 +14,6 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
     }
 
     // Constructor with custom capacity
-
     public ArrayList(int capacity) {
         this.capacity = capacity;
         this.list = (T[]) new Comparable[capacity];  // Initialize array with Comparable to match T
@@ -58,16 +57,6 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
             System.out.println(data);
         }
     }
-    //Search
-    @Override
-    public T search(T data) {
-        for (T element : this) {
-            if (element.equals(data)) {
-                return element;
-            }
-        }
-        return null;
-    }
 
     //remove functions
     @Override
@@ -84,9 +73,23 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
 
         //shrink for free space
         if (this.size <= this.capacity / 3) {this.shrink();}
-
         return true;
     }
+
+    public boolean remove(ArrayList<Donation> donationList,T data){
+        boolean removed = false;
+        for (int i = 0; i < donationList.size(); i++) {
+            Donation donation = donationList.get(i);
+            // Assuming you have a way to compare Donation with T
+            if (donation.equals(data)) {
+                donationList.remove(i);
+                removed = true;
+                i--; // Decrement index to handle removed element
+            }
+        }
+        return removed;
+    }
+
 
     //Update
     @Override
@@ -106,12 +109,41 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
         return false;
     }
 
+    //Search
+    public boolean search(ArrayList<Donation> donationList, int index, String values) {
+        for (Donation donation : donationList) {
+            if (donation == null) continue; // Skip null elements
+
+            String attribute = getAttributeByIndex(donation, index); // Get the attribute by index
+
+            if (attribute != null && attribute.equals(values)) {
+                return true; // Match found
+            }
+        }
+        return false;
+    }
+
+    private String getAttributeByIndex(Donation donation, int index) {
+        switch (index) {
+            case 0:
+                return donation.getDonationID();
+            case 1:
+                return donation.getArrayListKey();
+            case 2:
+                return donation.getDate();
+            case 3:
+                return String.valueOf(donation.getAmount());
+            default:
+                return null;
+        }
+    }
+
     //List specialize functions - expansion and shrink
     private void grow() {
         int newCapacity = this.capacity * 2;
-        T[] newList = (T[]) new Object[newCapacity];
+        T[] newList = (T[]) new Comparable[newCapacity]; // Cast to Comparable
 
-        for(int i = 0; i < this.size; ++i) {
+        for (int i = 0; i < this.size; ++i) {
             newList[i] = this.list[i];
         }
 
@@ -120,10 +152,10 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
     }
 
     private void shrink() {
-        int newCapacity = this.capacity / 2;
-        T[] newList = (T[]) new Object[newCapacity];
+        int newCapacity = Math.max(this.capacity / 2, 10); // Prevent shrinking below initial capacity
+        T[] newList = (T[]) new Comparable[newCapacity]; // Cast to Comparable
 
-        for(int i = 0; i < this.size; ++i) {
+        for (int i = 0; i < this.size; ++i) {
             newList[i] = this.list[i];
         }
 
@@ -144,11 +176,15 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
         return this.list[index];
     }
 
+    @Override
+    public int size(){
+        return this.size;
+    }
+
+
     //Sorting functions
     @Override
-    public void mergeSort(T[] list, int length) {
-        if (length <= 1) return;
-
+    public void mergeSort(int index, int length) {
         int middle = length / 2;
         T[] leftList = (T[]) new Comparable[middle];
         T[] rightList = (T[]) new Comparable[length - middle];
@@ -156,18 +192,18 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
         System.arraycopy(list, 0, leftList, 0, middle);
         System.arraycopy(list, middle, rightList, 0, length - middle);
 
-        mergeSort(leftList, middle);
-        mergeSort(rightList, length - middle);
-        merge(leftList, rightList, list);
+        mergeSort(index, middle);
+        mergeSort(index, length - middle);
+        merge(leftList, rightList, list, index);
     }
 
-    public void merge(T[] leftList, T[] rightList, T[] list) {
+    public void merge(T[] leftList, T[] rightList, T[] list, int index) {
         int leftSize = leftList.length;
         int rightSize = rightList.length;
         int i = 0, l = 0, r = 0;
 
         while (l < leftSize && r < rightSize) {
-            if (leftList[l].compareTo(rightList[r]) < 0) {
+            if (compareByIndex(leftList[l], rightList[r], index) < 0) {
                 list[i++] = leftList[l++];
             } else {
                 list[i++] = rightList[r++];
@@ -181,7 +217,17 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
         while (r < rightSize) {
             list[i++] = rightList[r++];
         }
-    }//Merge Sort - merge function
+    }
+
+    private int compareByIndex(T left, T right, int index) {
+        Donation leftDonation = (Donation) left;
+        Donation rightDonation = (Donation) right;
+
+        String leftAttribute = getAttributeByIndex(leftDonation, index);
+        String rightAttribute = getAttributeByIndex(rightDonation, index);
+
+        return leftAttribute.compareTo(rightAttribute);
+    }
 
     //Iterator
     @Override

@@ -5,13 +5,15 @@ public interface ListInterface<T> {
     void insert(int index,T data);
 
     void read();
-    T search(T data);
+
     boolean remove(int index);
+
 
     boolean update(int index,T oldData,T newData);
 
     boolean isEmpty();
     T get(int index);
+    int size();
 
-    void mergeSort(T list[],int length);
+    //void mergeSort(int length, int index);
 }

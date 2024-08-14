@@ -1,6 +1,7 @@
 package com.src;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 
 public class test {
     public static void main(String[] args) {
@@ -14,10 +15,10 @@ public class test {
         Donor donor3 = new Donor("003", "Charlie", "555555555", "charlie@example.com", "public", "003");
 
         //Donation Example insertion
-        Donation donation1 = new Donation("001","11/11/2011",123124.00);
-        Donation donation2 = new Donation("002","14/01/2011",1124);
-        Donation donation3 = new Donation("004","11/02/2011",1324);
-        Donation donation4 = new Donation("003","01/02/2021",11324);
+        Donation donation1 = new Donation("D001","001","11/11/2011",123124.00);
+        Donation donation2 = new Donation("D002","003","14/01/2011",1124);
+        Donation donation3 = new Donation("D004","002","11/02/2011",1324);
+        Donation donation4 = new Donation("D003","001","01/02/2021",11324);
 
 
         donorTree.insert(donor1);
@@ -34,51 +35,40 @@ public class test {
         donorTree.read();
         donationList.read();
 
+        //Search Test
+        boolean found = donationList.search(donationList, 1, "001");
+        System.out.println("Is ArrayListKey ID '001' found? " + found);
+
+        System.out.println("Search donor 1 true? " + donorTree.search(donor1));
+
+        //Remove test
+        donorTree.remove(donor3);
+        donorTree.read(); // Should not include Charlie anymore
+
+        donationList.remove(donationList,donation4);
+        donationList.read();
+
+        //Donor Tree size and is Empty size
+        System.out.println("Tree Size: " + donorTree.size()); // Should be 2 after removal
+        System.out.println("Is tree empty? " + donorTree.isEmpty()); // false
+
+        System.out.println("List Size: " + donationList.size());
+        System.out.println(donationList.isEmpty());
+
+        //Array List Update
+        System.out.println("Update Donor 'Bob's phone number:");
+        Donation newData = new Donation("D002","003","14/01/2011",331224);
+        donationList.update(1, donation2, newData); // Update Bob's phone number
+        donationList.read();
 
 
+        // MergeSort Test
+        System.out.println("\nTesting Merge Sort on Donor List:");
+        Donation donation5 = new Donation("D005","002","21-11-2005",9999);
+        donationList.add(donation5);
+        DonationComparatorByDate comparator = new DonationComparatorByDate();
+        donationList.bubbleSort(comparator);
+        donationList.read();
 
-
-//        System.out.println("Is Donor 'Alice' in the tree? " + donorTree.search(donor1)); // true
-//        System.out.println("Is Donor 'David' in the tree? " + donorTree.search(new Donor("004", "David", "444444444", "david@example.com", "private", "004"))); // false
-//
-//        System.out.println("Remove Donor 'Charlie' from the tree:");
-//        donorTree.remove(donor3);
-//        donorTree.read(); // Should not include Charlie anymore
-//
-//        System.out.println("Tree Size: " + donorTree.size()); // Should be 2 after removal
-//        System.out.println("Is tree empty? " + donorTree.isEmpty()); // false
-//
-//        // Test ArrayList methods
-//        System.out.println("\nDonorList - All Donors:");
-//        for (Donor donor : donationList) {
-//            System.out.println(donor);
-//        }
-//
-//        System.out.println("Update Donor 'Bob's phone number:");
-//        donor2.setPhoneNumber("111111111");
-//        donationList.update(1, donor2, donor2); // Update Bob's phone number
-//
-//        System.out.println("After update:");
-//        for (Donor donor : donationList) {
-//            System.out.println(donor);
-//        }
-//
-//        System.out.println("Remove Donor 'Alice' from the list:");
-//        donationList.remove(0);
-//        for (Donor donor : donationList) {
-//            System.out.println(donor);
-//        }
-//
-//        System.out.println("List Size: " + donationList.size()); // Should be 1 after removal
-//        System.out.println("Is list empty? " + donationList.isEmpty()); // false
-//
-//        // MergeSort Test
-//        System.out.println("\nTesting Merge Sort on Donor List:");
-//        Donor donor4 = new Donor("004", "David", "444444444", "david@example.com", "private", "004");
-//        donationList.add(donor4);
-//        donationList.mergeSort(donationList.list, donationList.size());
-//        for (Donor donor : donationList) {
-//            System.out.println(donor);
-//        }
-            }
-        }
+    }//main
+}//test

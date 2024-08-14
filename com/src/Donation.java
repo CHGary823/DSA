@@ -3,14 +3,24 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Donation implements Comparable<Donation> {
+    private String DonationID;
     private String ArrayListKey;
     private String date;
     private double amount;
 
-    public Donation(String arrayListKey, String date, double amount) {
+    public Donation(String donationID,String arrayListKey, String date, double amount) {
+        this.DonationID = donationID;
         ArrayListKey = arrayListKey;
         this.date = date;
         this.amount = amount;
+    }
+
+    public String getDonationID() {
+        return DonationID;
+    }
+
+    public void setDonationID(String donationID) {
+        DonationID = donationID;
     }
 
     public String getArrayListKey() {
@@ -25,7 +35,7 @@ public class Donation implements Comparable<Donation> {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -40,7 +50,8 @@ public class Donation implements Comparable<Donation> {
     @Override
     public String toString() {
         return "Donation{" +
-                "ArrayListKey='" + ArrayListKey + '\'' +
+                "DonationId=" + DonationID +
+                " ArrayListKey='" + ArrayListKey + '\'' +
                 ", amount=" + amount +
                 ", date=" + date +
                 '}';
@@ -63,4 +74,5 @@ public class Donation implements Comparable<Donation> {
         else{result =0;}
         return result;
     }
+
 }
