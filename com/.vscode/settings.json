@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "DSA/src",
+        "src"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
+}
