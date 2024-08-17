@@ -14,6 +14,4 @@ public interface ListInterface<T> {
     boolean isEmpty();
     T get(int index);
     int size();
-
-    //void mergeSort(int length, int index);
 }
