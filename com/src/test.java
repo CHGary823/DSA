@@ -63,11 +63,17 @@ public class test {
 
 
         // MergeSort Test
-        System.out.println("\nTesting Merge Sort on Donor List:");
-        Donation donation5 = new Donation("D005","002","21-11-2005",9999);
+        System.out.println("\nTesting Sort on Donor List:");
+        Donation donation5 = new Donation("D005","002","21/11/2005",9999);
         donationList.add(donation5);
-        DonationComparatorByDate comparator = new DonationComparatorByDate();
-        donationList.bubbleSort(comparator);
+        // Example usage to sort by DonationID in ascending order
+        donationList.bubbleSort(3, donationList, true);
+        donationList.read();
+
+        System.out.println("\nTesting Sort on Donor List:");
+        // Example usage to sort by Amount in descending order
+        donationList.bubbleSort(3, donationList, false);
+
         donationList.read();
 
     }//main

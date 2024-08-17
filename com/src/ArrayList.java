@@ -1,6 +1,9 @@
 package com.src;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Iterable<T> {
     //Create a simple list data structure
@@ -183,51 +186,67 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
 
 
     //Sorting functions
-    @Override
-    public void mergeSort(int index, int length) {
-        int middle = length / 2;
-        T[] leftList = (T[]) new Comparable[middle];
-        T[] rightList = (T[]) new Comparable[length - middle];
+    //@Override
+    public void bubbleSort(int index, ArrayList<Donation> donationList, boolean ascending) {
+        int n = donationList.size();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                Donation donation1 = donationList.get(j);
+                Donation donation2 = donationList.get(j + 1);
+                boolean shouldSwap = false;
 
-        System.arraycopy(list, 0, leftList, 0, middle);
-        System.arraycopy(list, middle, rightList, 0, length - middle);
-
-        mergeSort(index, middle);
-        mergeSort(index, length - middle);
-        merge(leftList, rightList, list, index);
-    }
-
-    public void merge(T[] leftList, T[] rightList, T[] list, int index) {
-        int leftSize = leftList.length;
-        int rightSize = rightList.length;
-        int i = 0, l = 0, r = 0;
-
-        while (l < leftSize && r < rightSize) {
-            if (compareByIndex(leftList[l], rightList[r], index) < 0) {
-                list[i++] = leftList[l++];
-            } else {
-                list[i++] = rightList[r++];
+                if (index == 0)
+                { // Sort by DonationID
+                    shouldSwap = ascending
+                            ? donation1.getDonationID().compareTo(donation2.getDonationID()) > 0
+                            : donation1.getDonationID().compareTo(donation2.getDonationID()) < 0;
+                }
+                else if (index == 1)
+                { // Sort by ArrayListKey
+                    shouldSwap = ascending
+                            ? donation1.getArrayListKey().compareTo(donation2.getArrayListKey()) > 0
+                            : donation1.getArrayListKey().compareTo(donation2.getArrayListKey()) < 0;
+                }
+                else if (index == 2)
+                { // Sort by Amount
+                    shouldSwap = ascending
+                            ? donation1.getAmount() > donation2.getAmount()
+                            : donation1.getAmount() < donation2.getAmount();
+                }
+                else if (index == 3)
+                { // Sort by Date
+                    try {
+                        Date date1 = dateFormat.parse(donation1.getDate());
+                        Date date2 = dateFormat.parse(donation2.getDate());
+                        int comparisonResult = date1.compareTo(date2);
+                        shouldSwap = ascending ? comparisonResult > 0 : comparisonResult < 0;
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (shouldSwap)
+                {
+                    // Correct way to swap without casting issues
+                    donationList.set(j, donation2);
+                    donationList.set(j + 1, donation1);
+                }
             }
         }
-
-        while (l < leftSize) {
-            list[i++] = leftList[l++];
-        }
-
-        while (r < rightSize) {
-            list[i++] = rightList[r++];
-        }
     }
 
-    private int compareByIndex(T left, T right, int index) {
-        Donation leftDonation = (Donation) left;
-        Donation rightDonation = (Donation) right;
 
-        String leftAttribute = getAttributeByIndex(leftDonation, index);
-        String rightAttribute = getAttributeByIndex(rightDonation, index);
-
-        return leftAttribute.compareTo(rightAttribute);
+    //Set
+    public void set(int index, T data) {
+        if (index < 0 || index >= this.size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        this.list[index] = data;
     }
+
+
+
+
 
     //Iterator
     @Override
