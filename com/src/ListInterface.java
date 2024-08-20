@@ -8,10 +8,11 @@ public interface ListInterface<T> {
 
     boolean remove(int index);
 
-
     boolean update(int index,T oldData,T newData);
 
     boolean isEmpty();
     T get(int index);
     int size();
+
+
 }
