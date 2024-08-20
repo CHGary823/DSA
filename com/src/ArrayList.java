@@ -94,6 +94,14 @@ public class ArrayList<T extends Comparable<T>> implements ListInterface<T> ,Ite
     }
 
 
+    public boolean removeAll(ArrayList<T> tempList) {
+        while (!tempList.isEmpty()) {
+            tempList.remove(0); // Always remove the first element until the list is empty
+        }
+        return tempList.isEmpty(); // Returns true if the list is empty
+    }
+
+
     //Update
     @Override
     public boolean update(int index,T oldData, T newData) {

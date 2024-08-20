@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
 public class test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
         TreeAVL<Donor> donorTree = new TreeAVL<Donor>();
         ArrayList<Donation> donationList = new ArrayList<Donation>();
@@ -33,6 +33,8 @@ public class test {
 
         // Test read and add/insert methods -Success as at 13/8/2024
         donorTree.read();
+
+        System.out.println("Should clear");
         donationList.read();
 
         //Search Test
@@ -43,7 +45,7 @@ public class test {
 
         //Remove test
         donorTree.remove(donor3);
-        donorTree.read(); // Should not include Charlie anymore
+        donorTree.read();
 
         donationList.remove(donationList,donation4);
         donationList.read();
@@ -63,18 +65,16 @@ public class test {
 
 
         // MergeSort Test
-        System.out.println("\nTesting Sort on Donor List:");
-        Donation donation5 = new Donation("D005","002","21/11/2005",9999);
+        System.out.println("\nTesting Merge Sort on Donor List:");
+        Donation donation5 = new Donation("D005","002","21-11-2005",9999);
         donationList.add(donation5);
-        // Example usage to sort by DonationID in ascending order
-        donationList.bubbleSort(3, donationList, true);
-        donationList.read();
-
-        System.out.println("\nTesting Sort on Donor List:");
-        // Example usage to sort by Amount in descending order
-        donationList.bubbleSort(3, donationList, false);
 
         donationList.read();
 
+        System.out.println("\nTesting removeALL on Donor List:");
+        donationList.removeAll(donationList);
+
+        donationList.read(); // Should be empty
     }//main
+
 }//test
