@@ -41,11 +41,12 @@ public class test {
         boolean found = donationList.search(donationList, 1, "001");
         System.out.println("Is ArrayListKey ID '001' found? " + found);
 
-        System.out.println("Search donor 1 true? " + donorTree.search(donor1));
+        System.out.println(donorTree.search(donor1));
+        System.out.println("\n");
 
         //Remove test
         donorTree.remove(donor3);
-        donorTree.read();
+//        donor.readDonor();
 
         donationList.remove(donationList,donation4);
         donationList.read();
